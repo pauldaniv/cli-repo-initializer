@@ -1,8 +1,9 @@
 #!/bin/bash
+
 sudo chmod +x init-git-local.sh
 
-sudo ln -s $pwd/init-git-local.sh /usr/bin/ginlo
+echo "export PATH=\$PATH:`pwd`" >> ~/.zshrc
 
-sudo chown $(whoami):$(whoami) /usr/bin/ginlo
+ln -s init-git-local.sh ginlo
 
 echo "Successfully installed. Try to run 'ginlo'"
