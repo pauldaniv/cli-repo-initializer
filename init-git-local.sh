@@ -1,5 +1,8 @@
 #!/bin/bash
 
+git config user.email paulsegfault@gmail.com
+git config user.name Paul
+
 check_added_successfully() {
 	if [[ $? == 0 ]]; then
 		echo "$1 init was successful"
