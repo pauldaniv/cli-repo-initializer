@@ -1,8 +1,5 @@
 #!/bin/bash
 
-git config user.email paulsegfault@gmail.com
-git config user.name Paul
-
 check_added_successfully() {
 	if [[ $? == 0 ]]; then
 		echo "$1 init was successful"
@@ -17,6 +14,9 @@ check_remote_exists() {
 
 current_folder_name=${PWD##*/}
 git init
+
+git config user.email paulsegfault@gmail.com
+git config user.name Paul
 
 bitbucket_repo_url="git@bitbucket.org:miamibeach87/$current_folder_name.git"
 github_repo_url="git@github.com:pauldaniv/$current_folder_name.git"
