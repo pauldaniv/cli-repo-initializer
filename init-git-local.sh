@@ -18,6 +18,9 @@ git init
 git config user.email paulsegfault@gmail.com
 git config user.name Paul
 
+git config user.signingkey ''
+git config commit.gpgsign ''
+
 bitbucket_repo_url="git@bitbucket.org:miamibeach87/$current_folder_name.git"
 github_repo_url="git@github.com:pauldaniv/$current_folder_name.git"
 gitlab_repo_url="git@gitlab.com:miamibeach87/$current_folder_name.git"
