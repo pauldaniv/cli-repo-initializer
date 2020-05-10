@@ -1,23 +1,46 @@
 #!/bin/bash
 
 check_added_successfully() {
-	if [[ $? == 0 ]]; then
-		echo "$1 init was successful"
-	else 
-		echo "Not able to init $1"
-	fi
+  if [[ $? == 0 ]]; then
+    echo "$1 init was successful"
+  else
+    echo "Not able to init $1"
+  fi
 }
 
 check_remote_exists() {
   [[ ! $(git remote -v | grep -v 'fetch' | grep $1 | awk '{print $2}') =~ $2 ]] && echo true
 }
 
+readValue() {
+  READ_VALUE_RESULT=
+  local value
+  echo "$1: " | tr -d '\n'
+
+  local CHECK_MARK="\033[0;32m\xE2\x9C\x94\033[0m"
+  if [[ $2 == pass ]]; then
+    read -s value
+  else
+    read -r value
+  fi
+  if [[ "$value" ]]; then
+    echo -e "\\r${CHECK_MARK}\033[K" | tr -d '\d'
+  fi
+  READ_VALUE_RESULT=${value}
+  value=
+}
+
 current_folder_name=${PWD##*/}
 git init
-
-git config user.email paulsegfault@gmail.com
-git config user.name Paul
-
+readValue "Update user info?"
+if [[ "$READ_VALUE_RESULT" ]]; then
+  readValue "Enter ssh key file path"
+  [[ "$READ_VALUE_RESULT" ]] && git config --replace-all user.ssh.private.key.name "$READ_VALUE_RESULT"
+  readValue "Enter user.email"
+  [[ "$READ_VALUE_RESULT" ]] && git config user.email "$READ_VALUE_RESULT"
+  readValue "Enter user.name"
+  [[ "$READ_VALUE_RESULT" ]] && git config user.name "$READ_VALUE_RESULT"
+fi
 git config user.signingkey ''
 git config commit.gpgsign ''
 

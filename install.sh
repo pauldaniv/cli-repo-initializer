@@ -1,9 +1,24 @@
 #!/bin/bash
 
-sudo chmod +x init-git-local.sh
+sudo chmod +x gitinit.sh
+sudo chmod +x gitpush.sh
 
-echo "export PATH=\$PATH:`pwd`" >> ~/.zshrc
+if [[ ! $(grep -q "export PATH=\$PATH:`pwd`/dist" ~/.zshrc) ]]; then
+  echo "export PATH=\$PATH:`pwd`/dist" >> ~/.zshrc
+fi
 
-ln -s init-git-local.sh ginlo
+[[ ! -d dist ]] && mkdir dist
 
-echo "Successfully installed. Try to run 'ginlo'"
+[[ ! -L dist/gitinit ]] && ln -s gitinit.sh dist/gitinit
+[[ ! -L dist/gitpush ]] && ln -s gitpush.sh dist/gitpush
+
+if [[ ! $? ]]; then
+  error_code=$?
+  echo "Error: $error_code"
+  exit $error_code
+fi
+
+source ~/.zshrc
+echo "Successfully installed:"
+echo "1) gitinit"
+echo "2) gitpush"
