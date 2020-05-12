@@ -51,6 +51,8 @@ bitbucket_repo_url="git@bitbucket.org:miamibeach87/$current_folder_name.git"
 github_repo_url="git@github.com:pauldaniv/$current_folder_name.git"
 gitlab_repo_url="git@gitlab.com:miamibeach87/$current_folder_name.git"
 
+git remote -v | awk '{print $1}' | uniq | xargs -n1 git remote remove
+
 if [[ $(check_remote_exists origin "$bitbucket_repo_url") ]]; then
   git remote add origin $bitbucket_repo_url
 fi
