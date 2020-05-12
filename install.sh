@@ -1,16 +1,17 @@
 #!/bin/bash
 
-sudo chmod +x gitinit.sh
-sudo chmod +x gitpush.sh
+sudo chmod +x tools/gitinit.sh
+sudo chmod +x tools/gitpush.sh
 
-if [[ ! $(grep -q "export PATH=\$PATH:`pwd`/dist" ~/.zshrc) ]]; then
-  echo "export PATH=\$PATH:`pwd`/dist" >> ~/.zshrc
+if ! grep -q "export PATH=\$PATH:$(pwd)/dist" ~/.zshrc; then
+  echo "export PATH=\$PATH:$(pwd)/dist" >>~/.zshrc
 fi
 
-[[ ! -d dist ]] && mkdir dist
+rm -rf dist
+mkdir dist
 
-[[ ! -L dist/gitinit ]] && ln -s gitinit.sh dist/gitinit
-[[ ! -L dist/gitpush ]] && ln -s gitpush.sh dist/gitpush
+ln -s $(pwd)/tools/gitinit.sh $(pwd)/dist/gitinit
+ln -s $(pwd)/tools/gitpush.sh $(pwd)/dist/gitpush
 
 if [[ ! $? ]]; then
   error_code=$?
@@ -18,7 +19,7 @@ if [[ ! $? ]]; then
   exit $error_code
 fi
 
-source ~/.zshrc
+source ~/.zshrc &>/dev/null
 echo "Successfully installed:"
 echo "1) gitinit"
 echo "2) gitpush"

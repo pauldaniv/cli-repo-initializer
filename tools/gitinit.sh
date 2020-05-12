@@ -32,6 +32,7 @@ readValue() {
 
 current_folder_name=${PWD##*/}
 git init
+
 readValue "Update user info?"
 if [[ "$READ_VALUE_RESULT" ]]; then
   readValue "Enter ssh key file path"
@@ -41,6 +42,7 @@ if [[ "$READ_VALUE_RESULT" ]]; then
   readValue "Enter user.name"
   [[ "$READ_VALUE_RESULT" ]] && git config user.name "$READ_VALUE_RESULT"
 fi
+
 git config user.signingkey ''
 git config commit.gpgsign ''
 
