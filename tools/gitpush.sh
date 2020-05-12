@@ -18,23 +18,18 @@ readValue() {
   value=
 }
 
-
-
 ssh_key_path=$(git config user.ssh.private.key.name) >/dev/null
-if [[ -z "$ssh_key_path" ]]; then
-  readValue "Use default key? (y/n)"
+if [[ ! "$ssh_key_path" ]]; then
+  readValue "Update ssh key? (y/n)"
   if [[ ${READ_VALUE_RESULT} == 'y' ]]; then
-    git push $@
+    readValue "Enter ssh key file path"
+    if [[ "$READ_VALUE_RESULT" ]]; then
+      git config --replace-all user.ssh.private.key.name "$READ_VALUE_RESULT"
+    fi
+  else
+     git push $@
     exit 0
   fi
-fi
-
-readValue "Enter ssh key file path"
-if [[ "$READ_VALUE_RESULT" ]]; then
-  git config --replace-all user.ssh.private.key.name "$READ_VALUE_RESULT"
-  GIT_SSH_COMMAND="ssh -i $(git config user.ssh.private.key.name)" git push $@
 else
-  echo "Attempting to use default path..."
-  git push all
-  exit 0
+  GIT_SSH_COMMAND="ssh -i $(git config user.ssh.private.key.name)" git push $@
 fi

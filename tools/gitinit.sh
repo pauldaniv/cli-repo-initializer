@@ -32,6 +32,7 @@ readValue() {
 
 current_folder_name=${PWD##*/}
 git init
+git config --replace-all user.ssh.private.key.name ~/.ssh/id_rsa
 
 readValue "Update user info?"
 if [[ "$READ_VALUE_RESULT" ]]; then
