@@ -27,9 +27,9 @@ if [[ ! "$ssh_key_path" ]]; then
       git config --replace-all user.ssh.private.key.name "$READ_VALUE_RESULT"
     fi
   else
-     git push $@
+     git $@
     exit 0
   fi
 else
-  GIT_SSH_COMMAND="ssh -i $(git config user.ssh.private.key.name)" git push $@
+  GIT_SSH_COMMAND="ssh -i $(git config user.ssh.private.key.name)" git $@
 fi

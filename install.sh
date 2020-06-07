@@ -10,8 +10,14 @@ fi
 rm -rf dist
 mkdir dist
 
-ln -s $(pwd)/tools/gitinit.sh $(pwd)/dist/gitinit
-ln -s $(pwd)/tools/gitpush.sh $(pwd)/dist/gitpush
+echo "Creating link to tools:"
+
+for i in $(ls tools/); do
+  src_path="$(pwd)/tools/$i"
+  dst_path="$(pwd)/dist/$(echo $i | sed 's/\.[^.]*$//')"
+  echo "$src_path => $dst_path"
+  ln -s $src_path $dst_path
+done
 
 if [[ ! $? ]]; then
   error_code=$?
@@ -21,5 +27,7 @@ fi
 
 source ~/.zshrc &>/dev/null
 echo "Successfully installed:"
-echo "1) gitinit"
-echo "2) gitpush"
+
+for i in $(ls tools/); do
+  echo $i
+done
