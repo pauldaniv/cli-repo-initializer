@@ -1,8 +1,5 @@
 #!/bin/bash
 
-sudo chmod +x tools/gitinit.sh
-sudo chmod +x tools/gitpush.sh
-
 if ! grep -q "export PATH=\$PATH:$(pwd)/dist" ~/.zshrc; then
   echo "export PATH=\$PATH:$(pwd)/dist" >>~/.zshrc
 fi
@@ -13,6 +10,7 @@ mkdir dist
 echo "Creating link to tools:"
 
 for i in $(ls tools/); do
+  sudo chmod +x tools/$i
   src_path="$(pwd)/tools/$i"
   dst_path="$(pwd)/dist/$(echo $i | sed 's/\.[^.]*$//')"
   echo "$src_path => $dst_path"
