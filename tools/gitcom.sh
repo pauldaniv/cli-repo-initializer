@@ -18,7 +18,12 @@ readValue() {
   value=
 }
 
-ssh_key_path=$(git config user.ssh.private.key.name) >/dev/null
+if [ -d .git ]; then
+  ssh_key_path=$(git config user.ssh.private.key.name) >/dev/null
+else
+  ssh_key_path=$GIT_SSH_KEY_PATH
+fi
+
 if [[ ! "$ssh_key_path" ]]; then
   readValue "Update ssh key? (y/n)"
   if [[ ${READ_VALUE_RESULT} == 'y' ]]; then
@@ -31,5 +36,5 @@ if [[ ! "$ssh_key_path" ]]; then
     exit 0
   fi
 else
-  GIT_SSH_COMMAND="ssh -i $(git config user.ssh.private.key.name)" git $@
+  GIT_SSH_COMMAND="ssh -i $ssh_key_path" git $@
 fi
