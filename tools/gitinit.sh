@@ -58,8 +58,9 @@ if [[ "$READ_VALUE_RESULT" = "y" ]]; then
   [[ "$READ_VALUE_RESULT" ]] && git config user.name "$READ_VALUE_RESULT"
 fi
 
-git config user.signingkey ''
-git config commit.gpgsign ''
+# going to hardcode this for now
+git config user.signingkey 7CCFBA01CC8C5A6B
+git config commit.gpgsign true
 
 github_repo_url="git@github.com:$GITHUB_USER_NAME/$current_folder_name.git"
 
