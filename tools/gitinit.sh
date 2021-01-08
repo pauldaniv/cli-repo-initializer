@@ -105,4 +105,5 @@ fi
 echo
 echo "Created remotes listed bellow: "
 echo
+echo
 git remote -v
