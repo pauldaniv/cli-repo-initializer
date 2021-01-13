@@ -32,7 +32,7 @@ readValue() {
   value=
 }
 
-current_folder_name=${PWD##*/}
+current_folder_name=${1:-${PWD##*/}}
 git init
 git config --replace-all user.ssh.private.key.name ~/.ssh/id_rsa
 
@@ -59,7 +59,7 @@ if [[ "$READ_VALUE_RESULT" = "y" ]]; then
 fi
 
 # going to hardcode this for now
-git config user.signingkey 7CCFBA01CC8C5A6B
+git config user.signingkey B286731F71468F7BCF4E80F300B9131832CF5F5A
 git config commit.gpgsign true
 
 github_repo_url="git@github.com:$GITHUB_USER_NAME/$current_folder_name.git"
@@ -93,6 +93,17 @@ if [[ "$GITLAB_USER_NAME" ]]; then
   if [[ $(check_remote_exists all "$gitlab_repo_url") ]]; then
     git remote set-url --add --push all $gitlab_repo_url
     check_added_successfully "Gitlab"
+  fi
+fi
+
+if [[ "$KEYBASE_USER_NAME" ]]; then
+  keybase_repo_url="keybase://private/$KEYBASE_USER_NAME/$current_folder_name"
+  if [[ $(check_remote_exists keybase "$keybase_repo_url") ]]; then
+    git remote add keybase $keybase_repo_url
+  fi
+  if [[ $(check_remote_exists all "$keybase_repo_url") ]]; then
+    git remote set-url --add --push all $keybase_repo_url
+    check_added_successfully "Keybase Git"
   fi
 fi
 
